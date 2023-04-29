@@ -13,6 +13,7 @@ GitHub Name: BrennanLongstreth
 ################################################################################
 
 import string
+import secrets
 
 '''
 Pre: size is an exponent, as in 2^size.
@@ -38,10 +39,16 @@ def key_gen(p, a):
 Pre: p and a are the returned by parem_gen. A is your private key
 Post: returns r and S as defined in class and in McAndrew
 '''
-def sign(p, a, A):
+def sign(m, p, a, A):
+  while True:
+    k = int(secrets.randbelow(int(p)))+2
+    if gcd(p-1,k) == 1: # random between 2 and p -2 and relatively prime to p-1
+      break
+  # print("k:",k)
+  r = int(mod(a^k, p))
+  print("r:",r)
+  S = mod((m - A * r) * inverse_mod(k,p-1), p-1)
   
-  S = 
-  r = mod(a^k, p)
   return S
 
 #transforms msg_in to a base 256 integer which it then returns
@@ -58,4 +65,19 @@ def num_to_txt(num_in):
   return m
 
 if __name__ == "__main__":
-  
+  size=100
+  message="Mashed"
+  p,a = param_gen(size)
+  # p = 983742435220503122220524208407
+  # a = 5
+  print("p:", p)
+  print("a:", a)
+  A,B = key_gen(p,a)
+  # A = 51
+  # B = 52
+  # print("A:",A) #private key
+  # print("B:",B) #public key
+  print("m:",txt_to_num(message))
+  S = sign(txt_to_num(message),p,a,A)
+  print("S:",S)
+

@@ -14,28 +14,35 @@ GitHub Name: BrennanLongstreth
 
 import string
 
+'''
+Pre: size is an exponent, as in 2^size.
+Post: program returns El Gamal parameters, large prime, p and primitive root, a mod p as defined in class and in McAndrew
+'''
 def param_gen(size):
-    p = random_prime(2^size)
-    ZZn = IntegerModRing(p)
+  p = random_prime(2^size)
+  a = mod(primitive_root(p), p)
 
-    totient = p - 1
-    a = 3
-    e = totient/2
-    while(pow(a, e, p) != totient):
-       a = a + 2
-    
-    a = ZZn(a)
-    return p, a
+  return p, a
 
+'''
+Pre: p and a are returned by param_gen
+Post: returns private key, A, and public key, B as defined in class and in McAndrew
+'''
 def key_gen(p, a):
-    ZZn = IntegerModRing(p)
-    A = ZZn.random_element()
-    B = a^A
+  A = randint(1, p)
+  B = a^A
 
-    return A, B
+  return A, B
 
+'''
+Pre: p and a are the returned by parem_gen. A is your private key
+Post: returns r and S as defined in class and in McAndrew
+'''
 def sign(p, a, A):
-    
+  
+  S = 
+  r = mod(a^k, p)
+  return S
 
 #transforms msg_in to a base 256 integer which it then returns
 def txt_to_num(msg_in):
@@ -49,3 +56,6 @@ def num_to_txt(num_in):
   m = map(chr,msg_idx)
   m = ''.join(m)
   return m
+
+if __name__ == "__main__":
+  
